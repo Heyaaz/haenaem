@@ -104,4 +104,20 @@ public class UserServiceImpl implements UserService {
 
     return userMapper.toDto(user);
   }
+
+  /**
+   * 유저 삭제
+   */
+  @Override
+  public void deleteUser(long userId) {
+    log.info("유저 삭제 요청: userId={}", userId);
+
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 사용자 삭제 시도: userId={}", userId);
+          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+        });
+
+    userRepository.delete(user);
+  }
 }

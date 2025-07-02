@@ -26,4 +26,9 @@ public interface UserService {
    * 유저 정보 수정
    */
   UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest);
+
+  /**
+   * 유저 삭제
+   */
+  void deleteUser(long userId);
 }
