@@ -2,6 +2,7 @@ package com.haenaem.domain.user.service;
 
 import com.haenaem.domain.user.dto.UserCreateRequest;
 import com.haenaem.domain.user.dto.UserDto;
+import com.haenaem.domain.user.dto.UserLoginRequest;
 import com.haenaem.domain.user.dto.UserUpdateRequest;
 
 public interface UserService {
@@ -14,7 +15,7 @@ public interface UserService {
   /**
    * 로그인
    */
-  UserDto login(String email, String password);
+  UserDto login(UserLoginRequest userLoginRequest);
 
   /**
    * 내 정보 조회
