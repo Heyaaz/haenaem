@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
   public UserDto registerUser(UserRegisterRequest request) {
     log.info("유저 생성 요청: {}", request);
 
-    if(userRepository.exitsByEmail(request.email())) {
+    if(userRepository.existsByEmail(request.email())) {
       log.debug("이미 존재하는 이메일: {}", request.email());
       throw new DomainException(ErrorCode.USER_DUPLICATION);
     }
