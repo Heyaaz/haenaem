@@ -51,10 +51,15 @@ public class Todo {
   private LocalDateTime updatedAt;
 
   @Builder
-  public Todo(String title, String description, boolean isCompleted) {
+  public Todo(User user, String title, String description, boolean isCompleted,
+      LocalDateTime dueDate,
+      long pointsEarned) {
+    this.user = user;
     this.title = title;
     this.description = description;
     this.isCompleted = false;
+    this.dueDate = dueDate;
+    this.pointsEarned = pointsEarned;
   }
 
   public void updateTitle(String title) {

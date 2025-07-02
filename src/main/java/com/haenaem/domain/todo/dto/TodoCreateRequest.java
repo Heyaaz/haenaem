@@ -2,6 +2,7 @@ package com.haenaem.domain.todo.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
@@ -12,7 +13,12 @@ public record TodoCreateRequest(
 
     @NotBlank(message = "내용은 필수입니다.")
     @Size(min = 2, max = 500, message = "내용은 최소 2글자, 최대 500글자까지 입력할 수 있습니다.")
-    String description
+    String description,
+
+    @NotBlank(message = "마감일은 필수입니다.")
+    LocalDateTime dueDate,
+
+    long earnedPoint
 ) {
 
 }
