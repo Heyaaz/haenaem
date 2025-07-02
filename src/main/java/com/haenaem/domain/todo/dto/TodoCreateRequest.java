@@ -18,7 +18,7 @@ public record TodoCreateRequest(
     @NotBlank(message = "마감일은 필수입니다.")
     LocalDateTime dueDate,
 
-    long earnedPoint
+    int earnedPoint
 ) {
 
 }

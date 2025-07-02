@@ -42,7 +42,7 @@ public class Todo {
   private LocalDateTime dueDate;
 
   @Column(name = "points_earned", nullable = false)
-  private long pointsEarned;
+  private int pointsEarned;
 
   @Column(name = "completed_at")
   private LocalDateTime completedAt;
@@ -55,8 +55,7 @@ public class Todo {
 
   @Builder
   public Todo(User user, String title, String description, boolean isCompleted,
-      LocalDateTime dueDate,
-      long pointsEarned) {
+      LocalDateTime dueDate, int pointsEarned) {
     this.user = user;
     this.title = title;
     this.description = description;

@@ -32,7 +32,7 @@ public class User {
   private String password;
 
   @Column(name = "current_point")
-  private long currentPoint;
+  private int currentPoint = 0;
 
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
@@ -41,7 +41,7 @@ public class User {
   private LocalDateTime updatedAt;
 
   @Builder
-  private User(String email, String nickname, String password, long currentPoint) {
+  private User(String email, String nickname, String password, int currentPoint) {
     this.email = email;
     this.nickname = nickname;
     this.password = password;

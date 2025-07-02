@@ -21,6 +21,11 @@ public enum ErrorCode {
   // To do
   TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "Todo를 찾을 수 없습니다.", "해당 Todo가 존재하지 않습니다."),
 
+  // Shop
+  PURCHASE_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "아이템을 찾을 수 없습니다.", "해당 아이템이 존재하지 않습니다."),
+  PURCHASE_DEACTIVATED_ITEM(HttpStatus.BAD_REQUEST, "비활성화된 아이템입니다.", "해당 아이템은 비활성화되어 구매할 수 없습니다."),
+  NOT_ENOUGH_POINT(HttpStatus.BAD_REQUEST, "포인트가 부족합니다.", "포인트가 부족하여 요청을 처리할 수 없습니다."),
+
 
   // COMMON,
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력값입니다.", "잘못된 요청을 진행하였습니다."),

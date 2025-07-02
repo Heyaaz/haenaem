@@ -8,7 +8,7 @@ public record UserDto(
     Long id,
     String email,
     String nickname,
-    long currentPoint
+    int currentPoint
 ) {
 
   public static UserDto from(User user){
