@@ -37,6 +37,9 @@ public class User {
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
+  @Column(name = "updated_at", nullable = false)
+  private LocalDateTime updatedAt;
+
   @Builder
   private User(String email, String nickname, String password, long currentPoint) {
     this.email = email;
