@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record PurchaseResult(
+    Long userId,
     Long itemId,
     String itemName,
     int itemPrice,

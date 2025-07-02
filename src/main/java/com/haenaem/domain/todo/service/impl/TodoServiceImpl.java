@@ -12,10 +12,12 @@ import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TodoServiceImpl implements TodoService {
 
   private final TodoRepository todoRepository;
@@ -26,6 +28,7 @@ public class TodoServiceImpl implements TodoService {
    * @param todoCreateRequest
    * @return
    */
+  @Transactional
   @Override
   public TodoDto createTodo(TodoCreateRequest todoCreateRequest) {
     log.info("할 일 생성 요청: {}", todoCreateRequest);
@@ -65,6 +68,7 @@ public class TodoServiceImpl implements TodoService {
    * @param todoUpdateRequest
    * @return
    */
+  @Transactional
   @Override
   public TodoDto updateTodo(Long todoId, TodoUpdateRequest todoUpdateRequest) {
     log.info("할 일 수정 요청: todoId={}, todoUpdateRequest={}", todoId, todoUpdateRequest);
@@ -85,6 +89,7 @@ public class TodoServiceImpl implements TodoService {
    * 할 일 삭제
    * @param todoId
    */
+  @Transactional
   @Override
   public void deleteTodo(Long todoId) {
     log.info("할 일 삭제 요청: todoId={}", todoId);

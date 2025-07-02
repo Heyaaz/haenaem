@@ -11,17 +11,20 @@ import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class ShopServiceImpl implements ShopService {
 
   private final ShopRepository shopRepository;
 
   private final UserRepository userRepository;
 
+  @Transactional
   @Override
   public PurchaseResult purchaseItem(Long userId, Long itemId) {
     log.info("아이템 구매 요청: userId={}, itemId={}", userId, itemId);
@@ -46,11 +49,16 @@ public class ShopServiceImpl implements ShopService {
     // TODO: inventory 구현 후 로직 추가
 
 
+    // 포인트 차감 로직
+    int cost = shop.getPrice();
+    user.decreasePoint(cost);
+
     return PurchaseResult.builder()
+        .userId(userId)
         .itemId(itemId)
         .itemName(shop.getName())
         .itemPrice(shop.getPrice())
-        .remainingPoint(user.getCurrentPoint() - shop.getPrice())
+        .remainingPoint(user.getCurrentPoint())
         .build();
   }
 }

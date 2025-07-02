@@ -13,10 +13,12 @@ import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
    * @param request
    * @return
    */
+  @Transactional
   @Override
   public UserDto registerUser(UserRegisterRequest request) {
     log.info("유저 생성 요청: {}", request);
@@ -54,6 +57,7 @@ public class UserServiceImpl implements UserService {
    * @param request
    * @return
    */
+  @Transactional
   @Override
   public UserDto login(UserLoginRequest request) {
     log.info("로그인 요청: {}", request);
@@ -99,6 +103,7 @@ public class UserServiceImpl implements UserService {
    * @param userUpdateRequest
    * @return
    */
+  @Transactional
   @Override
   public UserDto updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
     log.info("유저 정보 수정 요청: userId={}, request={}", userId, userUpdateRequest);
@@ -119,6 +124,7 @@ public class UserServiceImpl implements UserService {
   /**
    * 유저 삭제
    */
+  @Transactional
   @Override
   public void deleteUser(Long userId) {
     log.info("유저 삭제 요청: userId={}", userId);
