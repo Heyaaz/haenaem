@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
    * 유저 생성
    */
   @Override
-  public UserDto createUser(UserRegisterRequest request) {
+  public UserDto registerUser(UserRegisterRequest request) {
     log.info("유저 생성 요청: {}", request);
 
     if(userRepository.exitsByEmail(request.email())) {

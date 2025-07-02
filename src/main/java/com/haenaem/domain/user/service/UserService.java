@@ -10,7 +10,7 @@ public interface UserService {
   /**
    * 유저 생성
    */
-  UserDto createUser(UserRegisterRequest userCreateRequest);
+  UserDto registerUser(UserRegisterRequest userCreateRequest);
 
   /**
    * 로그인
