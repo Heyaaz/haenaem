@@ -18,6 +18,8 @@ public enum ErrorCode {
   USER_DUPLICATION(HttpStatus.CONFLICT, "중복된 이메일입니다.", "이미 존재하는 이메일입니다."),
   EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "이메일을 찾을 수 없습니다.", "존재하지 않는 이메일입니다."),
 
+  // To do
+  TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "Todo를 찾을 수 없습니다.", "해당 Todo가 존재하지 않습니다."),
 
 
   // COMMON,

@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Todo {
 
   @Id @GeneratedValue(strategy = IDENTITY)
-  private long id;
+  private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id", nullable = false)
@@ -34,11 +35,11 @@ public class Todo {
   @Column(columnDefinition = "TEXT")
   private String description;
 
-  @Column(name = "due_date")
-  private LocalDateTime dueDate;
-
   @Column(name = "is_completed", nullable = false)
   private boolean isCompleted;
+
+  @Column(name = "due_date")
+  private LocalDateTime dueDate;
 
   @Column(name = "points_earned", nullable = false)
   private long pointsEarned;
@@ -46,4 +47,22 @@ public class Todo {
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
+  @Builder
+  public Todo(String title, String description, boolean isCompleted) {
+    this.title = title;
+    this.description = description;
+    this.isCompleted = false;
+  }
+
+  public void updateTitle(String title) {
+    if (title != null && !title.trim().isEmpty()) {
+      this.title = title;
+    }
+  }
+
+  public void updateDescription(String description) {
+    if (description != null && !description.trim().isEmpty()) {
+      this.description = description;
+    }
+  }
 }

@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
 
   /**
    * 유저 생성
+   * @param request
+   * @return
    */
   @Override
   public UserDto registerUser(UserRegisterRequest request) {
@@ -49,6 +51,8 @@ public class UserServiceImpl implements UserService {
 
   /**
    * 로그인
+   * @param request
+   * @return
    */
   @Override
   public UserDto login(UserLoginRequest request) {
@@ -75,6 +79,8 @@ public class UserServiceImpl implements UserService {
 
   /**
    * 내 정보 조회
+   * @param userId
+   * @return
    */
   @Override
   public UserDto getMyInfo(long userId) {
@@ -89,6 +95,9 @@ public class UserServiceImpl implements UserService {
 
   /**
    * 유저 정보 수정
+   * @param userId
+   * @param userUpdateRequest
+   * @return
    */
   @Override
   public UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest) {

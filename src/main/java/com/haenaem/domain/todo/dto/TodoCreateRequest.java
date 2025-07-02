@@ -12,7 +12,7 @@ public record TodoCreateRequest(
 
     @NotBlank(message = "내용은 필수입니다.")
     @Size(min = 2, max = 500, message = "내용은 최소 2글자, 최대 500글자까지 입력할 수 있습니다.")
-    String content
+    String description
 ) {
 
 }

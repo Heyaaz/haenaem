@@ -7,8 +7,8 @@ import lombok.Builder;
 public record TodoDto(
     Long id,
     String title,
-    String content,
-    boolean completed,
+    String description,
+    boolean isCompleted,
     LocalDateTime dueDate,
     Long userId
 ) {
