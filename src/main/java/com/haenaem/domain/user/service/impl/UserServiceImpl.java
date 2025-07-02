@@ -3,6 +3,7 @@ package com.haenaem.domain.user.service.impl;
 import com.haenaem.domain.user.dto.UserCreateRequest;
 import com.haenaem.domain.user.dto.UserDto;
 import com.haenaem.domain.user.dto.UserLoginRequest;
+import com.haenaem.domain.user.dto.UserUpdateRequest;
 import com.haenaem.domain.user.entity.User;
 import com.haenaem.domain.user.mapper.UserMapper;
 import com.haenaem.domain.user.repository.UserRepository;
@@ -84,5 +85,23 @@ public class UserServiceImpl implements UserService {
     return UserDto.from(user);
   }
 
+  /**
+   * 유저 정보 수정
+   */
+  @Override
+  public UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest) {
+    log.info("유저 정보 수정 요청: userId={}, request={}", userId, userUpdateRequest);
 
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 사용자 수정 시도: userId={}", userId);
+          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+        });
+
+    log.info("기존 유저 정보: {}", user.getNickname());
+    user.update(userUpdateRequest);
+    log.info("유저 정보 수정 완료: {}", user.getNickname());
+
+    return userMapper.toDto(user);
+  }
 }

@@ -25,5 +25,5 @@ public interface UserService {
   /**
    * 유저 정보 수정
    */
-  UserDto updateUser(String nickname, UserUpdateRequest userUpdateRequest);
+  UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest);
 }

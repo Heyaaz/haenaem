@@ -2,6 +2,7 @@ package com.haenaem.domain.user.entity;
 
 import static jakarta.persistence.GenerationType.*;
 
+import com.haenaem.domain.user.dto.UserUpdateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,4 +46,9 @@ public class User {
   }
 
 
+  public void update(UserUpdateRequest userUpdateRequest) {
+    if (!this.nickname.equals(userUpdateRequest.nickname())) {
+      this.nickname = userUpdateRequest.nickname();
+    }
+  }
 }
