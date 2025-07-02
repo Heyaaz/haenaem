@@ -20,7 +20,7 @@ public interface UserService {
   /**
    * 내 정보 조회
    */
-  UserDto getMyInfo(String nickname);
+  UserDto getMyInfo(long userId);
 
   /**
    * 유저 정보 수정

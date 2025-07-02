@@ -70,5 +70,19 @@ public class UserServiceImpl implements UserService {
     return userMapper.toDto(user);
   }
 
+  /**
+   * 내 정보 조회
+   */
+  @Override
+  public UserDto getMyInfo(long userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 사용자 조회 시도: userId={}", userId);
+          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+        });
+
+    return UserDto.from(user);
+  }
+
 
 }
