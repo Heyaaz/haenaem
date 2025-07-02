@@ -37,4 +37,11 @@ out/
 .vscode/
 .env
 
+## 환경 변수 파일 ##
 application-*.yml
+
+## DS_Store ##
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

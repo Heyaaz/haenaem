@@ -44,6 +44,9 @@ public class Todo {
   @Column(name = "points_earned", nullable = false)
   private long pointsEarned;
 
+  @Column(name = "completed_at")
+  private LocalDateTime completedAt;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 

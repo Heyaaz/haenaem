@@ -35,7 +35,7 @@ public class TodoServiceImpl implements TodoService {
         .description(todoCreateRequest.description())
         .isCompleted(false)
         .dueDate(todoCreateRequest.dueDate())
-        .pointsEarned(todoCreateRequest.earnedPoint()) // TODO : 포인트 랜덤 생성, 포인트 적립 로직 추가 필요
+        .pointsEarned(todoCreateRequest.earnedPoint()) // TODO : 포인트 랜덤 생성(50 ~ 100), 포인트 적립 로직 추가 필요
         .build();
 
     Todo savedTodo = todoRepository.save(todo);
