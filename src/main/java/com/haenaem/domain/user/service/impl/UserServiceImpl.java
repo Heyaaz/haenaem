@@ -8,6 +8,8 @@ import com.haenaem.domain.user.entity.User;
 import com.haenaem.domain.user.mapper.UserMapper;
 import com.haenaem.domain.user.repository.UserRepository;
 import com.haenaem.domain.user.service.UserService;
+import com.haenaem.global.exception.DomainException;
+import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     if(userRepository.exitsByEmail(request.email())) {
       log.debug("이미 존재하는 이메일: {}", request.email());
-      throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+      throw new DomainException(ErrorCode.USER_DUPLICATION);
     }
 
     User user = User.builder()
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findByEmail(email)
         .orElseThrow(() -> {
           log.debug("존재하지 않는 이메일로 로그인 시도: {}", email);
-          throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
+          throw new DomainException(ErrorCode.EMAIL_NOT_FOUND);
         });
 
     if (!user.getPassword().equals(password)) {
@@ -79,7 +81,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> {
           log.debug("존재하지 않는 사용자 조회 시도: userId={}", userId);
-          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+          throw new DomainException(ErrorCode.USER_NOT_FOUND);
         });
 
     return UserDto.from(user);
@@ -95,7 +97,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> {
           log.debug("존재하지 않는 사용자 수정 시도: userId={}", userId);
-          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+          throw new DomainException(ErrorCode.USER_NOT_FOUND);
         });
 
     log.info("기존 유저 정보: {}", user.getNickname());
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> {
           log.debug("존재하지 않는 사용자 삭제 시도: userId={}", userId);
-          throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+          throw new DomainException(ErrorCode.USER_NOT_FOUND);
         });
 
     userRepository.delete(user);
