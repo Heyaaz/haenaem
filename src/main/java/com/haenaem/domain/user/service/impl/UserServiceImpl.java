@@ -1,6 +1,6 @@
 package com.haenaem.domain.user.service.impl;
 
-import com.haenaem.domain.user.dto.UserCreateRequest;
+import com.haenaem.domain.user.dto.UserRegisterRequest;
 import com.haenaem.domain.user.dto.UserDto;
 import com.haenaem.domain.user.dto.UserLoginRequest;
 import com.haenaem.domain.user.dto.UserUpdateRequest;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
    * 유저 생성
    */
   @Override
-  public UserDto createUser(UserCreateRequest request) {
+  public UserDto createUser(UserRegisterRequest request) {
     log.info("유저 생성 요청: {}", request);
 
     if(userRepository.exitsByEmail(request.email())) {

@@ -1,6 +1,6 @@
 package com.haenaem.domain.user.service;
 
-import com.haenaem.domain.user.dto.UserCreateRequest;
+import com.haenaem.domain.user.dto.UserRegisterRequest;
 import com.haenaem.domain.user.dto.UserDto;
 import com.haenaem.domain.user.dto.UserLoginRequest;
 import com.haenaem.domain.user.dto.UserUpdateRequest;
@@ -10,7 +10,7 @@ public interface UserService {
   /**
    * 유저 생성
    */
-  UserDto createUser(UserCreateRequest userCreateRequest);
+  UserDto createUser(UserRegisterRequest userCreateRequest);
 
   /**
    * 로그인
