@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +62,7 @@ public class UserController {
   /**
    * 유저 정보 수정
    */
-  @PatchMapping("/{userId}")
+  @PatchMapping("/update/{userId}")
   public ResponseEntity<UserDto> update(@PathVariable long userId, @Valid @RequestBody UserUpdateRequest request) {
     log.info("유저 정보 수정 요청: {}", request);
     UserDto updatedUser = userService.updateUser(userId, request);
@@ -74,7 +73,7 @@ public class UserController {
   /**
    * 유저 삭제
    */
-  @DeleteMapping("/{userId}")
+  @DeleteMapping("/delete/{userId}")
   public ResponseEntity<Void> delete(@PathVariable long userId) {
     log.info("유저 삭제 요청: userId={}", userId);
     userService.deleteUser(userId);
