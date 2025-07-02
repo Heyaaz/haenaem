@@ -32,7 +32,7 @@ public class User {
   @Column(name = "current_point")
   private long currentPoint;
 
-  @Column
+  @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
   @Builder
