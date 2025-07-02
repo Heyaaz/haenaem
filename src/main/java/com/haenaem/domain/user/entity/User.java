@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
   @Id @GeneratedValue(strategy = IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(unique = true, nullable = false)
   private String email;

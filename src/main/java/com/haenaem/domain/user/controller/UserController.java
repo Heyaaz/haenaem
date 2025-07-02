@@ -52,7 +52,7 @@ public class UserController {
    * 내 정보 조회
    */
   @GetMapping("/me/{userId}")
-  public ResponseEntity<UserDto> getMyInfo(@PathVariable long userId) {
+  public ResponseEntity<UserDto> getMyInfo(@PathVariable Long userId) {
     log.info("내 정보 조회 요청: userId={}", userId);
     UserDto userDto = userService.getMyInfo(userId);
     log.info("내 정보 조회 완료: {}", userDto);
@@ -63,7 +63,7 @@ public class UserController {
    * 유저 정보 수정
    */
   @PatchMapping("/update/{userId}")
-  public ResponseEntity<UserDto> update(@PathVariable long userId, @Valid @RequestBody UserUpdateRequest request) {
+  public ResponseEntity<UserDto> update(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest request) {
     log.info("유저 정보 수정 요청: {}", request);
     UserDto updatedUser = userService.updateUser(userId, request);
     log.info("유저 정보 수정 완료: {}", updatedUser);
@@ -74,7 +74,7 @@ public class UserController {
    * 유저 삭제
    */
   @DeleteMapping("/delete/{userId}")
-  public ResponseEntity<Void> delete(@PathVariable long userId) {
+  public ResponseEntity<Void> delete(@PathVariable Long userId) {
     log.info("유저 삭제 요청: userId={}", userId);
     userService.deleteUser(userId);
     log.info("유저 삭제 완료: userId={}", userId);

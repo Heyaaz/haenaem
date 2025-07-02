@@ -20,15 +20,15 @@ public interface UserService {
   /**
    * 내 정보 조회
    */
-  UserDto getMyInfo(long userId);
+  UserDto getMyInfo(Long userId);
 
   /**
    * 유저 정보 수정
    */
-  UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest);
+  UserDto updateUser(Long userId, UserUpdateRequest userUpdateRequest);
 
   /**
    * 유저 삭제
    */
-  void deleteUser(long userId);
+  void deleteUser(Long userId);
 }

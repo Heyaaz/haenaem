@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
    * @return
    */
   @Override
-  public UserDto getMyInfo(long userId) {
+  public UserDto getMyInfo(Long userId) {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> {
           log.debug("존재하지 않는 사용자 조회 시도: userId={}", userId);
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
    * @return
    */
   @Override
-  public UserDto updateUser(long userId, UserUpdateRequest userUpdateRequest) {
+  public UserDto updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
     log.info("유저 정보 수정 요청: userId={}, request={}", userId, userUpdateRequest);
 
     User user = userRepository.findById(userId)
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
    * 유저 삭제
    */
   @Override
-  public void deleteUser(long userId) {
+  public void deleteUser(Long userId) {
     log.info("유저 삭제 요청: userId={}", userId);
 
     User user = userRepository.findById(userId)
