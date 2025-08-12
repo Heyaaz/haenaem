@@ -1,8 +1,7 @@
-package com.haenaem.inventory.entity;
+package com.haenaem.domain.inventory.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import com.haenaem.domain.shop.entity.Shop;
 import com.haenaem.domain.user.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,21 +31,8 @@ public class Inventory {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "item_id", nullable = false)
-  private List<Shop> itemId;
-
-  @Column(name = "is_Equipped", nullable = false)
-  private Boolean isEquipped = false;
-
-  @Column(name = "position_x", nullable = false)
-  private String positionX;
-
-  @Column(name = "position_y", nullable = false)
-  private String positionY;
-
-  @Column(name = "position_z", nullable = false)
-  private String positionZ; // 비쌀수록 앞에 표시
+  @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<InventoryItem> items = new ArrayList<>();
 
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
@@ -53,4 +40,14 @@ public class Inventory {
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
+  public Inventory(User user) {
+    this.user = user;
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
+  }
+
+  public void addItem(InventoryItem item) {
+    this.items.add(item);
+    this.updatedAt = LocalDateTime.now();
+  }
 }

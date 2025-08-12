@@ -5,7 +5,7 @@ import static jakarta.persistence.GenerationType.*;
 import com.haenaem.domain.user.dto.UserUpdateRequest;
 import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
-import com.haenaem.inventory.entity.Inventory;
+import com.haenaem.domain.inventory.entity.Inventory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

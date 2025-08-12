@@ -26,6 +26,10 @@ public enum ErrorCode {
   PURCHASE_DEACTIVATED_ITEM(HttpStatus.BAD_REQUEST, "비활성화된 아이템입니다.", "해당 아이템은 비활성화되어 구매할 수 없습니다."),
   NOT_ENOUGH_POINT(HttpStatus.BAD_REQUEST, "포인트가 부족합니다.", "포인트가 부족하여 요청을 처리할 수 없습니다."),
 
+  // Inventory
+  INVENTORY_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "인벤토리에서 아이템을 찾을 수 없습니다.", "해당 아이템이 존재하지 않습니다."),
+  INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "인벤토리를 찾을 수 없습니다.", "해당 인벤토리가 존재하지 않습니다."),
+  INVENTORY_ACCESS_DENIED(HttpStatus.FORBIDDEN, "인벤토리 접근 권한이 없습니다.", "본인의 인벤토리만 접근할 수 있습니다."),
 
   // COMMON,
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력값입니다.", "잘못된 요청을 진행하였습니다."),
