@@ -8,6 +8,9 @@ import com.haenaem.domain.user.entity.User;
 import com.haenaem.domain.user.mapper.UserMapper;
 import com.haenaem.domain.user.repository.UserRepository;
 import com.haenaem.domain.user.service.UserService;
+import com.haenaem.domain.room.service.impl.RoomServiceImpl;
+import com.haenaem.domain.inventory.entity.Inventory;
+import com.haenaem.domain.inventory.repository.InventoryRepository;
 import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final RoomServiceImpl roomService;
+  private final InventoryRepository inventoryRepository;
 
   /**
    * 유저 생성
@@ -46,8 +51,15 @@ public class UserServiceImpl implements UserService {
         .build();
 
     User savedUser = userRepository.save(user);
+    
+    // 인벤토리 자동 생성
+    Inventory inventory = new Inventory(savedUser);
+    inventoryRepository.save(inventory);
+    
+    // 방 자동 생성
+    roomService.createRoomForUser(savedUser);
 
-    log.info("유저 생성 완료: {}", savedUser);
+    log.info("유저 생성 완료 (인벤토리, 방 포함): {}", savedUser);
 
     return userMapper.toDto(savedUser);
   }

@@ -31,6 +31,10 @@ public enum ErrorCode {
   INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "인벤토리를 찾을 수 없습니다.", "해당 인벤토리가 존재하지 않습니다."),
   INVENTORY_ACCESS_DENIED(HttpStatus.FORBIDDEN, "인벤토리 접근 권한이 없습니다.", "본인의 인벤토리만 접근할 수 있습니다."),
 
+  // Room
+  ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.", "해당 사용자의 방이 존재하지 않습니다."),
+  ROOM_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 방이 존재합니다.", "사용자는 하나의 방만 가질 수 있습니다."),
+
   // COMMON,
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력값입니다.", "잘못된 요청을 진행하였습니다."),
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러입니다.", "관리자에게 연락해 주세요."),
