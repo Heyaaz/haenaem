@@ -5,10 +5,13 @@ import static jakarta.persistence.GenerationType.*;
 import com.haenaem.domain.user.dto.UserUpdateRequest;
 import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
+import com.haenaem.inventory.entity.Inventory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -41,6 +44,9 @@ public class User {
 
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
+
+  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+  private Inventory inventory;
 
   @Builder
   private User(String email, String nickname, String password, int currentPoint) {
