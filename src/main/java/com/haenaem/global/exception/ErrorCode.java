@@ -17,6 +17,7 @@ public enum ErrorCode {
   USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.", "해당 사용자가 존재하지 않습니다."),
   USER_DUPLICATION(HttpStatus.CONFLICT, "중복된 이메일입니다.", "이미 존재하는 이메일입니다."),
   EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "이메일을 찾을 수 없습니다.", "존재하지 않는 이메일입니다."),
+  ACCESS_DENIED(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.", "해당 작업을 수행할 권한이 없습니다."),
 
   // To do
   TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "Todo를 찾을 수 없습니다.", "해당 Todo가 존재하지 않습니다."),
@@ -30,6 +31,9 @@ public enum ErrorCode {
   INVENTORY_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "인벤토리에서 아이템을 찾을 수 없습니다.", "해당 아이템이 존재하지 않습니다."),
   INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "인벤토리를 찾을 수 없습니다.", "해당 인벤토리가 존재하지 않습니다."),
   INVENTORY_ACCESS_DENIED(HttpStatus.FORBIDDEN, "인벤토리 접근 권한이 없습니다.", "본인의 인벤토리만 접근할 수 있습니다."),
+
+  // Image
+  IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "이미지를 찾을 수 없습니다.", "해당 이미지가 존재하지 않습니다."),
 
   // Room
   ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.", "해당 사용자의 방이 존재하지 않습니다."),

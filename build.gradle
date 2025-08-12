@@ -40,6 +40,10 @@ dependencies {
     //mapstruct
     implementation 'org.mapstruct:mapstruct:1.6.3'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
+    // aws
+    implementation platform("software.amazon.awssdk:bom:2.25.33")
+    implementation "software.amazon.awssdk:s3"
 }
 
 tasks.named('test') {

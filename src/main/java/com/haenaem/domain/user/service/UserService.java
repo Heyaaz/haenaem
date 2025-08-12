@@ -31,4 +31,14 @@ public interface UserService {
    * 유저 삭제
    */
   void deleteUser(Long userId);
+
+  /**
+   * 프로필 이미지 업데이트
+   */
+  UserDto updateProfileImage(Long userId, org.springframework.web.multipart.MultipartFile profileImage);
+
+  /**
+   * 사용자 권한 변경 (Admin 전용)
+   */
+  UserDto updateUserRole(Long adminUserId, Long targetUserId, com.haenaem.domain.user.entity.UserRole newRole);
 }

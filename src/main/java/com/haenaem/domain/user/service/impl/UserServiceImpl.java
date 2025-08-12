@@ -8,15 +8,19 @@ import com.haenaem.domain.user.entity.User;
 import com.haenaem.domain.user.mapper.UserMapper;
 import com.haenaem.domain.user.repository.UserRepository;
 import com.haenaem.domain.user.service.UserService;
+import com.haenaem.domain.user.entity.UserRole;
 import com.haenaem.domain.room.service.impl.RoomServiceImpl;
 import com.haenaem.domain.inventory.entity.Inventory;
 import com.haenaem.domain.inventory.repository.InventoryRepository;
+import com.haenaem.domain.image.entity.Image;
+import com.haenaem.domain.image.service.ImageService;
 import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
   private final RoomServiceImpl roomService;
   private final InventoryRepository inventoryRepository;
+  private final ImageService imageService;
 
   /**
    * 유저 생성
@@ -44,10 +49,21 @@ public class UserServiceImpl implements UserService {
       throw new DomainException(ErrorCode.USER_DUPLICATION);
     }
 
+    // 프로필 이미지 처리
+    Image profileImage = null;
+    if (request.profileImage() != null && !request.profileImage().isEmpty()) {
+      profileImage = imageService.upload(request.profileImage());
+    }
+    
+    // 기본 Role 설정 (항상 ROLE_USER로 설정)
+    UserRole userRole = UserRole.ROLE_USER;
+    
     User user = User.builder()
         .email(request.email())
         .nickname(request.nickname())
         .password(request.password()) // TODO: 비밀번호는 암호화 처리 필요
+        .image(profileImage)
+        .userRole(userRole)
         .build();
 
     User savedUser = userRepository.save(user);
@@ -148,5 +164,62 @@ public class UserServiceImpl implements UserService {
         });
 
     userRepository.delete(user);
+  }
+
+  @Override
+  @Transactional
+  public UserDto updateProfileImage(Long userId, MultipartFile profileImage) {
+    log.info("프로필 이미지 업데이트 요청: userId={}", userId);
+
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 사용자 프로필 이미지 업데이트 시도: userId={}", userId);
+          return new DomainException(ErrorCode.USER_NOT_FOUND);
+        });
+
+    // 기존 이미지 삭제 (있는 경우)
+    if (user.getImage() != null) {
+      imageService.delete(user.getImage().getId());
+    }
+
+    // 새 이미지 업로드 및 업데이트
+    Image newProfileImage = imageService.upload(profileImage);
+    user.updateProfileImage(newProfileImage);
+
+    log.info("프로필 이미지 업데이트 완료: userId={}", userId);
+
+    return userMapper.toDto(user);
+  }
+
+  @Override
+  @Transactional
+  public UserDto updateUserRole(Long adminUserId, Long targetUserId, UserRole newRole) {
+    log.info("사용자 권한 변경 요청: adminUserId={}, targetUserId={}, newRole={}", adminUserId, targetUserId, newRole);
+    
+    // Admin 권한 확인
+    User adminUser = userRepository.findById(adminUserId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 관리자: adminUserId={}", adminUserId);
+          return new DomainException(ErrorCode.USER_NOT_FOUND);
+        });
+    
+    if (adminUser.getRole() != UserRole.ROLE_ADMIN) {
+      log.debug("권한 없는 사용자가 역할 변경 시도: adminUserId={}, role={}", adminUserId, adminUser.getRole());
+      throw new DomainException(ErrorCode.ACCESS_DENIED);
+    }
+    
+    // 대상 사용자 조회 및 권한 변경
+    User targetUser = userRepository.findById(targetUserId)
+        .orElseThrow(() -> {
+          log.debug("존재하지 않는 대상 사용자: targetUserId={}", targetUserId);
+          return new DomainException(ErrorCode.USER_NOT_FOUND);
+        });
+    
+    UserRole oldRole = targetUser.getRole();
+    targetUser.updateRole(newRole);
+    
+    log.info("사용자 권한 변경 완료: userId={}, {} -> {}", targetUserId, oldRole, newRole);
+    
+    return userMapper.toDto(targetUser);
   }
 }
