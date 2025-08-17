@@ -9,6 +9,9 @@ import com.haenaem.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -121,6 +124,39 @@ public class UserController {
     UserDto updatedUser = userService.updateUserRole(adminUserId, targetUserId, newRole);
     log.info("사용자 권한 변경 완료: userId={}, newRole={}", targetUserId, newRole);
     return ResponseEntity.ok(updatedUser);
+  }
+
+  /**
+   * 모든 사용자 페이지네이션 조회
+   */
+  @GetMapping
+  public ResponseEntity<Page<UserDto>> getAllUsers(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
+    log.info("사용자 전체 조회 요청: page={}, size={}", page, size);
+    
+    Pageable pageable = PageRequest.of(page, size);
+    Page<UserDto> userPage = userService.getAllUsers(pageable);
+    
+    log.info("사용자 전체 조회 완료: totalElements={}, totalPages={}", userPage.getTotalElements(), userPage.getTotalPages());
+    return ResponseEntity.ok(userPage);
+  }
+
+  /**
+   * 키워드로 사용자 검색 (페이지네이션)
+   */
+  @GetMapping("/search")
+  public ResponseEntity<Page<UserDto>> searchUsers(
+      @RequestParam String keyword,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
+    log.info("사용자 검색 요청: keyword={}, page={}, size={}", keyword, page, size);
+    
+    Pageable pageable = PageRequest.of(page, size);
+    Page<UserDto> userPage = userService.searchUsers(keyword, pageable);
+    
+    log.info("사용자 검색 완료: keyword={}, totalElements={}, totalPages={}", keyword, userPage.getTotalElements(), userPage.getTotalPages());
+    return ResponseEntity.ok(userPage);
   }
 
 }

@@ -18,6 +18,8 @@ import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -221,5 +223,33 @@ public class UserServiceImpl implements UserService {
     log.info("사용자 권한 변경 완료: userId={}, {} -> {}", targetUserId, oldRole, newRole);
     
     return userMapper.toDto(targetUser);
+  }
+
+  /**
+   * 모든 사용자 페이지네이션 조회
+   */
+  @Override
+  public Page<UserDto> getAllUsers(Pageable pageable) {
+    log.info("사용자 전체 조회 요청: page={}, size={}", pageable.getPageNumber(), pageable.getPageSize());
+    
+    Page<User> userPage = userRepository.findAllWithPaging(pageable);
+    
+    log.info("사용자 전체 조회 완료: totalElements={}, totalPages={}", userPage.getTotalElements(), userPage.getTotalPages());
+    
+    return userPage.map(userMapper::toDto);
+  }
+
+  /**
+   * 키워드로 사용자 검색 (페이지네이션)
+   */
+  @Override
+  public Page<UserDto> searchUsers(String keyword, Pageable pageable) {
+    log.info("사용자 검색 요청: keyword={}, page={}, size={}", keyword, pageable.getPageNumber(), pageable.getPageSize());
+    
+    Page<User> userPage = userRepository.findByKeywordWithPaging(keyword, pageable);
+    
+    log.info("사용자 검색 완료: keyword={}, totalElements={}, totalPages={}", keyword, userPage.getTotalElements(), userPage.getTotalPages());
+    
+    return userPage.map(userMapper::toDto);
   }
 }
