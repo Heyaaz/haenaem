@@ -4,21 +4,31 @@
   <!-- 콘솔에 출력하는 Appender -->
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [userId:%X{userId}] [requestId:%X{requestId}] [ip:%X{ipAddress}] %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %highlight(%msg)%n</pattern>
     </encoder>
   </appender>
 
   <!-- 파일로 저장하는 Appender -->
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/deokhugam.log</file> <!-- 현재 폴더 하위 logs 디렉토리에 저장 -->
+    <file>logs/haenaem.log</file> <!-- 현재 폴더 하위 logs 디렉토리에 저장 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs/deokhugam.%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 매일 로그 파일 새로 생성 -->
+      <fileNamePattern>logs/haenaem.%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 매일 로그 파일 새로 생성 -->
       <maxHistory>30</maxHistory> <!-- 30일 동안 파일 보관 -->
     </rollingPolicy>
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [userId:%X{userId}] [requestId:%X{requestId}] %msg%n</pattern>
     </encoder>
   </appender>
+
+  <!-- 특정 패키지 로거 설정 -->
+  <logger name="com.haenaem" level="DEBUG" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
+  </logger>
+
+  <!-- 하이버네이트 SQL 로깅 -->
+  <logger name="org.hibernate.SQL" level="DEBUG"/>
+  <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
 
   <!-- 루트 로거 설정 -->
   <root level="INFO">
