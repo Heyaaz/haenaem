@@ -6,6 +6,7 @@ import com.haenaem.domain.user.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,10 +17,14 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity @Getter
 @Table(name = "todos")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class Todo {
 
   @Id @GeneratedValue(strategy = IDENTITY)
@@ -48,9 +53,11 @@ public class Todo {
   private LocalDateTime completedAt;
 
   @Column(name = "created_at", nullable = false, updatable = false)
+  @CreatedDate
   private LocalDateTime createdAt;
 
   @Column(name = "updated_at", nullable = false)
+  @LastModifiedDate
   private LocalDateTime updatedAt;
 
   @Builder

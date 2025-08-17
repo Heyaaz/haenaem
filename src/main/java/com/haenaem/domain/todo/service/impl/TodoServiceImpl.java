@@ -7,6 +7,8 @@ import com.haenaem.domain.todo.entity.Todo;
 import com.haenaem.domain.todo.mapper.TodoMapper;
 import com.haenaem.domain.todo.repository.TodoRepository;
 import com.haenaem.domain.todo.service.TodoService;
+import com.haenaem.domain.user.entity.User;
+import com.haenaem.domain.user.repository.UserRepository;
 import com.haenaem.global.exception.DomainException;
 import com.haenaem.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class TodoServiceImpl implements TodoService {
 
   private final TodoRepository todoRepository;
   private final TodoMapper todoMapper;
+  private final UserRepository userRepository;
 
   /**
    * 할 일 생성
@@ -33,7 +36,11 @@ public class TodoServiceImpl implements TodoService {
   public TodoDto createTodo(TodoCreateRequest todoCreateRequest) {
     log.info("할 일 생성 요청: {}", todoCreateRequest);
 
+    User user = userRepository.findById(todoCreateRequest.userId())
+        .orElseThrow(() -> new DomainException(ErrorCode.USER_NOT_FOUND));
+
     Todo todo = Todo.builder()
+        .user(user)
         .title(todoCreateRequest.title())
         .description(todoCreateRequest.description())
         .isCompleted(false)

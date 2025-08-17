@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haenaem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 네비게이션 -->
+  <nav>
+    <div class="nav-container">
+      <h1><a href="#" onclick="showPage('home')">Haenaem</a></h1>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('users')" id="nav-users">사용자 관리</a></li>
+        <li><a href="#" onclick="showPage('todos')" id="nav-todos">To Do</a></li>
+        <li><a href="#" onclick="showPage('shop')" id="nav-shop">상점</a></li>
+        <li><a href="#" onclick="showPage('inventory')" id="nav-inventory">인벤토리</a></li>
+        <li><a href="#" onclick="showPage('room')" id="nav-room">방 꾸미기</a></li>
+        <li><button onclick="logout()" class="logout-btn" id="logout-btn" style="display: none;">로그아웃</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 사용자 상태 표시 -->
+  <div id="user-status"></div>
+
+  <!-- 메인 컨테이너 -->
+  <div id="app-container">
+    
+    <!-- 홈 페이지 -->
+    <section id="home-page" class="page active">
+      <div class="hero-section">
+        <h1>Haenaem에 오신 것을 환영합니다!</h1>
+        <p>할 일을 관리하고, 상점에서 아이템을 구매하여 나만의 방을 꾸며보세요.</p>
+      </div>
+      <div class="main-content">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>사용자 관리</h3>
+            <p>회원가입, 로그인 및 프로필 관리</p>
+            <button class="btn" onclick="showPage('users')">이동하기</button>
+          </div>
+          <div class="feature-card">
+            <h3>투두 관리</h3>
+            <p>할 일을 생성하고 관리하기</p>
+            <button class="btn" onclick="showPage('todos')">이동하기</button>
+          </div>
+          <div class="feature-card">
+            <h3>상점</h3>
+            <p>다양한 아이템을 구매하기</p>
+            <button class="btn" onclick="showPage('shop')">이동하기</button>
+          </div>
+          <div class="feature-card">
+            <h3>인벤토리</h3>
+            <p>보유한 아이템을 관리하기</p>
+            <button class="btn" onclick="showPage('inventory')">이동하기</button>
+          </div>
+          <div class="feature-card">
+            <h3>방 꾸미기</h3>
+            <p>아이템으로 나만의 방 꾸미기</p>
+            <button class="btn" onclick="showPage('room')">이동하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 사용자 관리 페이지 -->
+    <section id="users-page" class="page">
+      <div class="page-content">
+        <h2>사용자 관리</h2>
+        
+        <!-- 로그인/회원가입 폼 (로그인 안됨) -->
+        <div id="auth-forms">
+          <div class="form-container">
+            <h3>회원가입</h3>
+            <form id="register-form">
+              <input type="email" name="email" placeholder="이메일" required>
+              <input type="text" name="nickname" placeholder="닉네임" required>
+              <input type="password" name="password" placeholder="비밀번호" required>
+              <input type="file" name="profileImage" accept="image/*">
+              <button type="submit">가입하기</button>
+            </form>
+          </div>
+
+          <div class="form-container">
+            <h3>로그인</h3>
+            <form id="login-form">
+              <input type="email" name="email" placeholder="이메일" required>
+              <input type="password" name="password" placeholder="비밀번호" required>
+              <button type="submit">로그인</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 프로필 정보 (로그인됨) -->
+        <div id="profile-info" style="display: none;">
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="avatar-section">
+                <div class="avatar-placeholder">👤</div>
+                <h3 id="profile-nickname">사용자</h3>
+                <p id="profile-email">user@example.com</p>
+              </div>
+              <div class="points-section">
+                <span class="points-label">포인트</span>
+                <span class="points-value" id="profile-points">0</span>
+              </div>
+            </div>
+            <div class="profile-actions">
+              <button id="refresh-profile-btn">프로필 새로고침</button>
+              <button id="edit-profile-btn">프로필 수정</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="edit-profile-form" class="form-container" style="display: none;">
+          <h3>프로필 수정</h3>
+          <form id="update-user-form">
+            <input type="text" name="nickname" placeholder="새 닉네임" required>
+            <button type="submit">수정하기</button>
+            <button type="button" id="cancel-edit-profile-btn" class="secondary">취소</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- To Do 관리 페이지 -->
+    <section id="todos-page" class="page">
+      <div class="page-content">
+        <h2>To Do 관리</h2>
+        
+        <div class="form-container">
+          <h3>새 To Do 생성</h3>
+          <form id="create-todo-form">
+            <input type="text" name="title" placeholder="제목" required>
+            <textarea name="description" placeholder="설명" rows="4"></textarea>
+            <label for="due-date">마감일:</label>
+            <input type="datetime-local" name="dueDate" id="due-date">
+            <input type="hidden" name="userId" id="todo-userId">
+            <button type="submit">To Do 생성</button>
+          </form>
+        </div>
+
+        <div id="todo-detail" class="result-box" style="display: none;">
+          <h3>To Do 상세정보</h3>
+          <pre id="todo-display"></pre>
+          <div class="todo-actions">
+            <button id="edit-todo-btn">수정</button>
+            <button id="delete-todo-btn" class="danger-btn">삭제</button>
+          </div>
+        </div>
+
+        <div id="edit-todo-form" class="form-container" style="display: none;">
+          <h3>To Do 수정</h3>
+          <form id="update-todo-form">
+            <input type="text" name="title" placeholder="제목" required>
+            <textarea name="description" placeholder="설명" rows="4"></textarea>
+            <label for="edit-due-date">마감일:</label>
+            <input type="datetime-local" name="dueDate" id="edit-due-date">
+            <button type="submit">수정완료</button>
+            <button type="button" id="cancel-edit-btn" class="secondary">취소</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 상점 페이지 -->
+    <section id="shop-page" class="page">
+      <div class="page-content">
+        <h2>상점</h2>
+        
+        <div class="shop-controls">
+          <button id="get-shop-items-btn">상점 아이템 목록 보기</button>
+          <button id="get-active-items-btn">활성화된 아이템만 보기</button>
+        </div>
+
+        <div id="shop-items-section" class="result-box">
+          <h3>상점 아이템 목록</h3>
+          <div id="shop-items-grid" class="items-grid"></div>
+        </div>
+
+        <div id="item-detail" class="result-box" style="display: none;">
+          <h3>아이템 상세정보</h3>
+          <pre id="item-display"></pre>
+          <div class="item-actions">
+            <button id="purchase-item-btn">구매하기</button>
+          </div>
+        </div>
+
+        <div id="purchase-result" class="result-box" style="display: none;">
+          <h3>구매 결과</h3>
+          <pre id="purchase-display"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 인벤토리 페이지 -->
+    <section id="inventory-page" class="page">
+      <div class="page-content">
+        <h2>인벤토리</h2>
+        
+        <div class="inventory-controls">
+          <button id="get-inventory-btn">내 인벤토리 새로고침</button>
+        </div>
+
+        <div class="inventory-sections">
+          <div id="equipped-section" class="result-box">
+            <h3>장착한 아이템</h3>
+            <div id="equipped-items-grid" class="items-grid"></div>
+          </div>
+
+          <div id="unequipped-section" class="result-box">
+            <h3>장착하지 않은 아이템</h3>
+            <div id="unequipped-items-grid" class="items-grid"></div>
+          </div>
+        </div>
+
+        <div id="inventory-item-detail" class="result-box" style="display: none;">
+          <h3>아이템 상세정보</h3>
+          <pre id="inventory-item-display"></pre>
+          <div class="item-actions">
+            <button id="equip-item-btn" style="display: none;">장착하기</button>
+            <button id="unequip-item-btn" style="display: none;">장착해제</button>
+            <button id="place-room-btn" style="display: none;">방에 배치</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 방 꾸미기 페이지 -->
+    <section id="room-page" class="page">
+      <div class="page-content">
+        <h2>방 꾸미기</h2>
+        
+        <div class="room-controls">
+          <button id="load-room-btn">내 방 불러오기</button>
+          <p class="help-text">아이템을 클릭하면 제거할 수 있습니다.</p>
+        </div>
+
+        <div id="room-container" class="room-display">
+          <h3>내 방</h3>
+          <div id="room-display-area" class="room-area">
+            <div class="room-placeholder">방을 불러오려면 위 버튼을 클릭하세요.</div>
+          </div>
+        </div>
+
+        <div id="available-items-section" class="result-box">
+          <h3>배치 가능한 아이템</h3>
+          <button id="load-available-items-btn">아이템 목록 불러오기</button>
+          <div id="available-items-grid" class="items-grid"></div>
+        </div>
+
+        <div id="room-item-detail" class="result-box" style="display: none;">
+          <h3>아이템 정보</h3>
+          <pre id="room-item-display"></pre>
+          <div class="item-actions">
+            <button id="place-item-btn">방에 배치</button>
+            <button id="remove-item-btn" class="danger-btn" style="display: none;">방에서 제거</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
